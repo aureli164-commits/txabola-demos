@@ -1,0 +1,247 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Val'idée"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="theme-color" content="#B3261E"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="icon" href="/apple-touch-icon.png"><link rel="manifest" href="/manifest.json"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)} body{margin:0}</style></head><body><title>Val'idée</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout : appli mobile centrée, en-tête tampon, onglets bas. Identité : registre administratif, kraft et rouge tampon. Thème clair assumé. */
+:root{
+  --bg:#EFE6D6; --paper:#F7F1E6; --ink:#1D1B1A; --muted:#5E554A; --line:#D9C7A6;
+  --red:#B3261E; --red-soft:#F4DDD6; --ok:#2E6B4A; --ok-soft:#DCEBDF; --warn:#9A5B0C; --warn-soft:#F5E6C8;
+  --field:#FFFFFF; --miss-bg:#EAE2D3;
+  --serif:"Young Serif",Georgia,serif; --sans:"Public Sans",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#17140F; --paper:#221E18; --ink:#F1E8DA; --muted:#B5A994; --line:#3B342A;
+  --red:#E46A5C; --red-soft:#3E1F1A; --ok:#7FC39A; --ok-soft:#1E3326; --warn:#E2A84E; --warn-soft:#3A2C14;
+  --field:#2A251E; --miss-bg:#2C2720; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#17140F; --paper:#221E18; --ink:#F1E8DA; --muted:#B5A994; --line:#3B342A;
+  --red:#E46A5C; --red-soft:#3E1F1A; --ok:#7FC39A; --ok-soft:#1E3326; --warn:#E2A84E; --warn-soft:#3A2C14;
+  --field:#2A251E; --miss-bg:#2C2720; color-scheme:dark}
+.theme{margin-left:auto;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:8px 14px;font:600 .8rem var(--sans);cursor:pointer;min-height:40px}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+.app{max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+header{display:flex;align-items:center;gap:14px}
+header h1{font-family:var(--serif);font-weight:400;font-size:2rem;margin:0;line-height:1}
+header p{margin:2px 0 0;color:var(--muted);font-size:.85rem}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px}
+.lbl{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--red);margin:0 0 8px}
+h2{font-family:var(--serif);font-weight:400;font-size:1.35rem;margin:0 0 8px}
+label{display:block;font-weight:600;font-size:.9rem;margin:12px 0 6px}
+input[type=text],input[type=date],select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--field);font:inherit;color:var(--ink)}
+.q{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.q:first-of-type{border-top:0}
+.seg{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;flex-shrink:0}
+.seg button{border:0;background:var(--field);padding:7px 14px;font:600 .85rem var(--sans);color:var(--muted);cursor:pointer;min-height:36px}
+.seg button.on{background:var(--ink);color:var(--paper)}
+.btn{display:block;width:100%;padding:13px;border-radius:12px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);font:600 .95rem var(--sans);cursor:pointer;text-align:center;min-height:44px}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.red{background:var(--red);border-color:var(--red)}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stat{border-radius:10px;padding:10px 8px;text-align:center}
+.stat b{display:block;font-family:var(--serif);font-weight:400;font-size:1.5rem;line-height:1.1}
+.stat span{font-size:.72rem;font-weight:600}
+.s-ok{background:var(--ok-soft);color:var(--ok)} .s-soon{background:var(--warn-soft);color:var(--warn)}
+.s-late{background:var(--red-soft);color:var(--red)} .s-miss{background:var(--miss-bg);color:var(--muted)}
+.stamp{display:flex;align-items:center;gap:14px}
+.item{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--line);cursor:pointer;background:none;border-left:0;border-right:0;border-bottom:0;width:100%;text-align:left;font:inherit;color:inherit}
+.item:first-child{border-top:0}
+.item .t{font-weight:600}
+.item .m{font-size:.8rem;color:var(--muted)}
+.pill{font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.tabs{display:flex;gap:6px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:4px}
+.tabs button{flex:1;border:0;background:transparent;padding:9px 4px;border-radius:9px;font:600 .85rem var(--sans);color:var(--muted);cursor:pointer;min-height:40px}
+.tabs button.on{background:var(--ink);color:var(--paper)}
+.src{font-size:.82rem;color:var(--muted);word-break:break-word}
+.src a{color:var(--red)}
+.note{font-size:.78rem;color:var(--muted);text-align:center}
+.back{background:none;border:0;color:var(--red);font:600 .9rem var(--sans);cursor:pointer;padding:6px 0;min-height:40px}
+.kv{display:grid;grid-template-columns:120px 1fr;gap:6px 10px;font-size:.88rem}
+.kv dt{color:var(--muted)} .kv dd{margin:0}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:10px;font-size:.88rem}
+@media (prefers-reduced-motion:no-preference){.stampsvg{transition:transform .4s}}
+</style>
+
+<div class="app" id="app"></div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const STAMP = (ok,size=64)=>`<svg class="stampsvg" style="color:var(--red)" width="${size}" height="${size}" viewBox="0 0 200 200" role="img" aria-label="${ok?'Tampon conforme':'Tampon en attente'}"><defs><path id="rg${size}" d="M100 100 m-66 0 a66 66 0 1 1 132 0 a66 66 0 1 1 -132 0"/></defs><g transform="rotate(-10 100 100)" opacity="${ok?1:.35}"><circle cx="100" cy="100" r="92" fill="none" stroke="currentColor" stroke-width="7"/><circle cx="100" cy="100" r="50" fill="none" stroke="currentColor" stroke-width="3"/><text font-family="Public Sans, Arial, sans-serif" font-size="17" font-weight="700" letter-spacing="3" fill="currentColor"><textPath href="#rg${size}">${ok?'CONFORME · À JOUR · CONFORME · À JOUR ·':'EN COURS · À COMPLÉTER · EN COURS ·'}</textPath></text>${ok?'<path d="M78 100 L94 116 L124 84" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>':''}</g></svg>`;
+const THEMES=['auto','light','dark'], TLABEL={auto:'Auto',light:'Jour',dark:'Nuit'};
+let theme='auto'; try{ theme=localStorage.getItem('validee-theme')||'auto'; }catch(e){}
+function applyTheme(){ if(theme==='auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.setAttribute('data-theme',theme); }
+applyTheme();
+
+// Référentiel : socle commun (m:'all') + spécifiques par métier. Type : datee | permanente.
+const METIERS = {
+ resto:{naf:'56.10A',nom:'Restauration',qs:['sal','erp','alc']},
+ boul:{naf:'10.71C',nom:'Boulangerie-pâtisserie',qs:['sal','erp']},
+ coif:{naf:'96.02A',nom:'Coiffure',qs:['sal','erp']},
+ btp:{naf:'43',nom:'Artisan du bâtiment',qs:['sal','st']},
+ alim:{naf:'47.2x',nom:'Commerce alimentaire',qs:['sal','erp','tr']}
+};
+const QTXT = {sal:'Vous avez au moins un salarié',erp:'Vous accueillez du public',alc:'Vous vendez de l\'alcool',st:'Vous sous-traitez ou signez des contrats de plus de 5 000 € HT',tr:'Vous découpez ou transformez des produits sur place'};
+const REF0 = [
+ {id:'duerp',nom:'Document unique (DUERP)',quand:'sal',type:'datee',mois:12,nature:'Légale',source:'Code du travail L4121-3, R4121-1',url:'https://code.travail.gouv.fr/code-du-travail/l4121-3-1',per:'Mise à jour au moins annuelle (≥ 11 salariés) ou à chaque changement important',sanction:null},
+ {id:'vip',nom:'Suivi de santé au travail',quand:'sal',type:'datee',mois:60,nature:'Légale',source:'Code du travail L4624-1, R4624-10',url:'https://code.travail.gouv.fr/code-du-travail/l4624-1',per:'Visite dans les 3 mois après l\'embauche, renouvelée au plus tous les 5 ans',sanction:null},
+ {id:'elec',nom:'Vérification de l\'installation électrique',quand:'sal',type:'datee',mois:12,nature:'Légale',source:'Code du travail R4226-14, R4226-16',url:'https://code.travail.gouv.fr/code-du-travail/r4226-14',per:'Annuelle',sanction:null},
+ {id:'extinct',nom:'Vérification des extincteurs',quand:'all',type:'datee',mois:12,nature:'Recommandée',source:'Code du travail R4227-29 ; règle d\'usage NF S61-919',url:'https://code.travail.gouv.fr/code-du-travail/r4227-29',per:'Annuelle d\'usage',sanction:null},
+ {id:'registre',nom:'Registre de sécurité incendie',quand:'erp',type:'permanente',nature:'Légale',source:'Code de la construction et de l\'habitation, réglementation ERP',url:'https://www.legifrance.gouv.fr/codes/id/LEGISCTA000052644890/2026-07-01',per:'Tenu en continu',sanction:null},
+ {id:'prix',nom:'Affichage des prix',quand:'all',type:'permanente',nature:'Légale',source:'Code de la consommation L112-1 ; arrêté du 27 mars 1987',url:'https://entreprendre.service-public.gouv.fr/vosdroits/F23175',per:'Permanent',sanction:'Amende administrative jusqu\'à 3 000 € (personne physique) ou 15 000 € (personne morale)'},
+ {id:'aff',nom:'Affichages obligatoires du droit du travail',quand:'sal',type:'permanente',nature:'Légale',source:'Code du travail D4711-1 et suivants',url:'https://code.travail.gouv.fr/code-du-travail/d4711-1',per:'Permanent',sanction:null},
+ {id:'permis',nom:'Permis d\'exploitation',quand:'alc',type:'datee',mois:120,nature:'Légale',source:'Code de la santé publique L3332-1-1 ; Cerfa 14407',url:'https://www.legifrance.gouv.fr/codes/id/LEGISCTA000034722060',per:'Valable 10 ans, renouvelé par une formation de 6 h',sanction:null},
+ {id:'hygiene',nom:'Formation hygiène alimentaire',quand:'all',type:'permanente',nature:'Légale',source:'Code rural L233-4 ; décret 2011-731',url:'https://agriculture.gouv.fr/restauration-quelles-obligations-en-matiere-de-formation-a-lhygiene-des-aliments',per:'Une personne formée dans l\'effectif, sans recyclage imposé',sanction:null},
+ {id:'allerg',nom:'Information sur les allergènes',quand:'all',type:'permanente',nature:'Légale',source:'Décret 2015-447 (règlement UE 1169/2011)',url:'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000030491684',per:'Permanent',sanction:null},
+ {id:'viande',nom:'Affichage de l\'origine des viandes',quand:'all',type:'permanente',nature:'Légale',source:'Décret 2002-1465 ; décret 2025-141',url:'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000051187015',per:'Permanent',sanction:null},
+ {id:'rcpro',nom:'Assurance responsabilité civile professionnelle',quand:'all',type:'datee',mois:12,nature:'Contractuelle',source:'Exigée par le bail, la banque ou un franchiseur, pas par la loi',url:'',per:'Renouvellement annuel du contrat',sanction:null}
+];
+const RESTO_ONLY = ['permis','viande'];
+const SHARED_FOOD = ['hygiene','allerg'];
+const MORE = [
+ {id:'titre',m:['boul'],nom:'Usage du titre « boulanger »',quand:'all',type:'permanente',nature:'Légale',source:'Loi 98-405 du 25 mai 1998 (pétrissage, façonnage et cuisson sur place)',url:'',per:'Condition permanente',sanction:null},
+ {id:'denom',m:['boul'],nom:'Dénominations « maison », « tradition », « au levain »',quand:'all',type:'permanente',nature:'Légale',source:'Décret 93-1074 du 13 septembre 1993',url:'',per:'Condition permanente',sanction:null},
+ {id:'four',m:['boul'],nom:'Entretien des fours et de la chambre froide',quand:'all',type:'datee',mois:12,nature:'Recommandée',source:'Obligation générale de maintenance du Code du travail',url:'',per:'Annuelle d\'usage',sanction:null},
+ {id:'qualif',m:['coif'],nom:'Qualification professionnelle du salon',quand:'all',type:'permanente',nature:'Légale',source:'Loi 46-1173 du 23 mai 1946, art. 2-1 (évolution en cours, à suivre)',url:'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000687580/',per:'Contrôle effectif et permanent',sanction:null},
+ {id:'tarifs',m:['coif'],nom:'Affichage des tarifs de coiffure',quand:'all',type:'permanente',nature:'Légale',source:'Arrêté du 27 mars 1987 relatif aux tarifs de coiffure',url:'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000495194',per:'Permanent (10 prestations minimum)',sanction:null},
+ {id:'fds',m:['coif'],nom:'Fiches de données de sécurité des produits',quand:'all',type:'permanente',nature:'Légale',source:'Règlement REACH 1907/2006 ; Code du travail R4412-38',url:'',per:'Une fiche par produit dangereux',sanction:null},
+ {id:'decennale',m:['btp'],nom:'Assurance décennale',quand:'all',type:'datee',mois:12,nature:'Légale',source:'Code des assurances L241-1 ; loi Spinetta 78-12',url:'https://www.justice.fr/fiche/garantie-decennale-constructeurs',per:'Souscrite avant chaque chantier, attestation jointe aux devis',sanction:null},
+ {id:'cartebtp',m:['btp'],nom:'Carte d\'identification BTP',quand:'sal',type:'permanente',nature:'Légale',source:'Code du travail L8291-1',url:'https://code.travail.gouv.fr/code-du-travail/l8291-1',per:'À chaque embauche',sanction:null},
+ {id:'vigilance',m:['btp'],nom:'Attestation de vigilance URSSAF',quand:'st',type:'datee',mois:6,nature:'Légale',source:'Code de la sécurité sociale L243-15 ; Code du travail D8222-5',url:'https://www.justice.fr/fiche/obtenir-attestation-vigilance',per:'Tous les 6 mois',sanction:null},
+ {id:'habil',m:['btp'],nom:'Habilitation électrique',quand:'sal',type:'datee',mois:60,nature:'Légale',source:'Code du travail R4544-9',url:'https://www.inrs.fr/risques/electriques/habilitation-electrique-foire-aux-questions.html',per:'Validité de 5 ans (à confirmer)',sanction:null},
+ {id:'chantier',m:['btp'],nom:'Panneau d\'affichage de chantier',quand:'all',type:'permanente',nature:'Légale',source:'Code du travail R8221-1 ; décret 2023-452',url:'',per:'Pendant toute la durée du chantier',sanction:null},
+ {id:'ddpp',m:['alim'],nom:'Déclaration d\'activité à la DDPP',quand:'all',type:'permanente',nature:'Légale',source:'Code rural ; Cerfa 13984',url:'',per:'Avant ouverture, puis à chaque changement',sanction:null},
+ {id:'agrement',m:['alim'],nom:'Agrément ou dérogation sanitaire',quand:'tr',type:'permanente',nature:'Légale',source:'Arrêté du 8 juin 2006',url:'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000645748',per:'Ponctuelle',sanction:null},
+ {id:'froid',m:['alim'],nom:'Relevés de température et chaîne du froid',quand:'all',type:'permanente',nature:'Légale',source:'Arrêté du 21 décembre 2009',url:'',per:'Selon le plan de maîtrise sanitaire',sanction:null},
+ {id:'tracab',m:['alim'],nom:'Traçabilité des produits',quand:'all',type:'permanente',nature:'Légale',source:'Règlement (CE) 178/2002, art. 18',url:'',per:'Permanente',sanction:null},
+ {id:'etanch',m:['alim'],nom:'Contrôle d\'étanchéité du froid commercial',quand:'all',type:'datee',mois:12,nature:'Légale',source:'Code de l\'environnement R543-75 (selon la charge en fluide)',url:'',per:'Selon la charge en fluide',sanction:null}
+];
+const REF = REF0.map(o=>({...o, m: RESTO_ONLY.includes(o.id)?['resto'] : SHARED_FOOD.includes(o.id)?['resto','boul','alim'] : ['all']})).concat(MORE);
+
+const TODAY = new Date('2026-10-14');
+const DEMO = {
+ setup:true, nom:'Bistrot du Port (exemple)', siret:'000 000 000 00000', metier:'resto', ans:{sal:true,erp:true,alc:true,st:false,tr:false},
+ docs:{
+  duerp:{date:'2025-09-02',file:'DUERP-2025.pdf'}, vip:{date:'2023-03-15',file:'visite-medicale.pdf'},
+  elec:{date:'2025-08-28',file:'rapport-electricite.pdf'}, extinct:{date:'2025-11-20',file:'controle-extincteurs.pdf'},
+  registre:{date:'2024-01-10',file:'registre-securite.jpg'}, prix:{date:'2026-02-01',file:'photo-affichage-prix.jpg'},
+  aff:{date:'2026-02-01',file:'photo-affichages.jpg'}, permis:{date:'2017-05-12',file:'permis-exploitation.pdf'},
+  hygiene:{date:'2022-06-20',file:'attestation-hygiene.pdf'}, allerg:{date:'2026-03-05',file:'tableau-allergenes.pdf'}
+ }
+};
+let S; try{ S = JSON.parse(localStorage.getItem('validee-demo')||'null') }catch(e){ S=null }
+if(!S) S = JSON.parse(JSON.stringify(DEMO));
+let view='bord', sel=null;
+function save(){ try{ localStorage.setItem('validee-demo', JSON.stringify(S)) }catch(e){} }
+function toast(t){ const el=document.getElementById('toast'); el.textContent=t; el.hidden=false; setTimeout(()=>el.hidden=true,2200); }
+const fmt = d => new Date(d).toLocaleDateString('fr-FR');
+const esc = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+if(!S.metier) S.metier='resto';
+function applicable(){ return REF.filter(o => (o.m.includes('all')||o.m.includes(S.metier)) && (o.quand==='all' || S.ans[o.quand])); }
+function questions(){ return METIERS[S.metier].qs; }
+function qrow(k){ return `<div class="q"><span>${QTXT[k]}</span><div class="seg" role="group" aria-label="${QTXT[k]}"><button data-k="${k}" data-v="1" class="${S.ans[k]?'on':''}">Oui</button><button data-k="${k}" data-v="0" class="${!S.ans[k]?'on':''}">Non</button></div></div>`; }
+function status(o){
+  const d=S.docs[o.id];
+  if(!d) return {k:'miss',t:'Manquant',cls:'s-miss'};
+  if(o.type==='permanente') return {k:'ok',t:'Présent',cls:'s-ok'};
+  const exp=new Date(d.date); exp.setMonth(exp.getMonth()+o.mois);
+  const days=Math.round((exp-TODAY)/864e5);
+  if(days<0) return {k:'late',t:'En retard',cls:'s-late',exp,days};
+  if(days<=60) return {k:'soon',t:'Bientôt',cls:'s-soon',exp,days};
+  return {k:'ok',t:'À jour',cls:'s-ok',exp,days};
+}
+
+function render(){
+  const app=document.getElementById('app');
+  const head=`<header>${STAMP(isConforme(),56)}<div><h1>Val'idée</h1><p>Vos obligations, avant l'échéance</p></div><button class="theme" id="theme" aria-label="Changer le thème, actuellement ${TLABEL[theme]}">${TLABEL[theme]}</button></header>`;
+  setTimeout(()=>{ const t=document.getElementById('theme'); if(t) t.onclick=()=>{ theme=THEMES[(THEMES.indexOf(theme)+1)%3]; try{localStorage.setItem('validee-theme',theme);}catch(e){} applyTheme(); render(); }; });
+  if(!S.setup){ app.innerHTML=head+onboarding(); bindOnboarding(); return; }
+  const tabs=`<nav class="tabs" aria-label="Sections"><button data-v="bord" class="${view==='bord'?'on':''}">Tableau</button><button data-v="liste" class="${view==='liste'||view==='detail'?'on':''}">Obligations</button><button data-v="profil" class="${view==='profil'?'on':''}">Entreprise</button></nav>`;
+  let body='';
+  if(view==='bord') body=dashboard();
+  else if(view==='liste') body=list();
+  else if(view==='detail') body=detail();
+  else body=profil();
+  app.innerHTML=head+tabs+body+`<p class="note">Démo · Val'idée vous aide à suivre vos obligations ; il ne remplace pas un conseil juridique.</p>`;
+  app.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{view=b.dataset.v;render();});
+  app.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{sel=b.dataset.open;view='detail';render();});
+  bindDetail(); bindProfil();
+}
+function isConforme(){ if(!S.setup) return false; return applicable().every(o=>{const k=status(o).k;return k==='ok'||k==='soon';}); }
+function counts(){ const c={ok:0,soon:0,late:0,miss:0}; applicable().forEach(o=>c[status(o).k]++); return c; }
+
+function dashboard(){
+  const c=counts(), ok=isConforme();
+  const urgent=applicable().map(o=>({o,s:status(o)})).filter(x=>x.s.k!=='ok').sort((a,b)=>({late:0,miss:1,soon:2}[a.s.k]-{late:0,miss:1,soon:2}[b.s.k]));
+  return `<section class="card stamp">${STAMP(ok,88)}<div><p class="lbl">${esc(S.nom)}</p><h2>${ok?'Conforme':'À régulariser'}</h2><p class="src">${ok?'Tous vos documents sont présents et à jour.':`${c.late+c.miss} point${c.late+c.miss>1?'s':''} à traiter avant d'obtenir le tampon.`}</p></div></section>
+  <div class="stats"><div class="stat s-ok"><b>${c.ok}</b><span>À jour</span></div><div class="stat s-soon"><b>${c.soon}</b><span>Bientôt</span></div><div class="stat s-late"><b>${c.late}</b><span>En retard</span></div><div class="stat s-miss"><b>${c.miss}</b><span>Manquants</span></div></div>
+  <section class="card"><p class="lbl">À traiter en priorité</p>${urgent.length?urgent.map(row).join(''):'<p class="src">Rien à traiter. Prochaine relecture conseillée dans un an.</p>'}</section>`;
+}
+function row({o,s}){
+  const sub = s.exp ? (s.k==='late'?`Expiré depuis le ${fmt(s.exp)}`:`Échéance le ${fmt(s.exp)}`) : (o.type==='permanente'?'Obligation permanente':'Aucun document');
+  return `<button class="item" data-open="${o.id}"><span><span class="t">${esc(o.nom)}</span><br><span class="m">${sub}</span></span><span class="pill ${s.cls}">${s.t}</span></button>`;
+}
+function list(){
+  const items=applicable().map(o=>({o,s:status(o)}));
+  return `<section class="card"><p class="lbl">${items.length} obligations pour votre activité</p>${items.map(row).join('')}</section>`;
+}
+function detail(){
+  const o=REF.find(x=>x.id===sel), s=status(o), d=S.docs[o.id];
+  return `<button class="back" id="back">← Obligations</button>
+  <section class="card"><p class="lbl">${esc(o.nature)} · ${o.type==='datee'?'échéance datée':'obligation permanente'}</p><h2>${esc(o.nom)}</h2>
+  <span class="pill ${s.cls}">${s.t}</span>
+  <dl class="kv" style="margin-top:14px"><dt>Périodicité</dt><dd>${esc(o.per)}</dd>${s.exp?`<dt>Échéance</dt><dd>${fmt(s.exp)}</dd>`:''}<dt>Document</dt><dd>${d?esc(d.file):'Aucun'}</dd><dt>Sanction</dt><dd>${o.sanction?esc(o.sanction):'Sanction prévue par le texte, voir la source'}</dd></dl>
+  <p class="src" style="margin-top:12px">Source : ${o.url?`<a href="${o.url}" target="_blank" rel="noopener">${esc(o.source)}</a>`:esc(o.source)}<br>Dernière vérification du référentiel : octobre 2026</p></section>
+  <section class="card"><p class="lbl">${d?'Mettre à jour le document':'Ajouter le document'}</p>
+  <label for="f-file">Photo ou PDF</label><input id="f-file" type="file" accept="image/*,application/pdf">
+  <label for="f-date">${o.type==='datee'?'Date du document (contrôle, formation, attestation)':'Date de mise en place'}</label><input id="f-date" type="date" value="${d?d.date:'2026-10-14'}">
+  <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px"><button class="btn red" id="f-save">Enregistrer</button>${d?'<button class="btn ghost" id="f-del">Retirer le document</button>':''}</div></section>`;
+}
+function bindDetail(){
+  const b=document.getElementById('back'); if(!b) return;
+  b.onclick=()=>{view='liste';render();};
+  document.getElementById('f-save').onclick=()=>{
+    const f=document.getElementById('f-file').files[0], date=document.getElementById('f-date').value;
+    if(!date){toast('Indiquez une date.');return;}
+    const prev=S.docs[sel];
+    S.docs[sel]={date,file:f?f.name:(prev?prev.file:'document-ajouté.pdf')}; save();
+    toast(isConforme()?'Enregistré. Tampon obtenu : conforme.':'Enregistré.'); view='bord'; render();
+  };
+  const del=document.getElementById('f-del'); if(del) del.onclick=()=>{ delete S.docs[sel]; save(); toast('Document retiré.'); render(); };
+}
+function profil(){
+  const M=METIERS[S.metier];
+  return `<section class="card"><p class="lbl">Entreprise</p><dl class="kv"><dt>Nom</dt><dd>${esc(S.nom)}</dd><dt>SIRET</dt><dd>${esc(S.siret)}</dd><dt>Activité</dt><dd>${M.naf} · ${M.nom}</dd></dl></section>
+  <section class="card"><p class="lbl">Ce qui s'applique à vous</p>${questions().map(qrow).join('')}</section>
+  <button class="btn ghost" id="reset">Recommencer la démo depuis l'inscription</button>`;
+}
+function bindProfil(){
+  document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{S.ans[b.dataset.k]=b.dataset.v==='1';save();render();});
+  const r=document.getElementById('reset'); if(r) r.onclick=()=>{S={setup:false,nom:'',siret:'',metier:'resto',ans:{sal:true,erp:true,alc:true,st:false,tr:false},docs:{}};save();view='bord';render();};
+}
+function onboarding(){
+  return `<section class="card"><p class="lbl">Inscription · 1 minute</p><h2>Votre entreprise</h2>
+  <label for="o-nom">Nom de l'établissement</label><input id="o-nom" type="text" placeholder="Ex. Bistrot du Port" value="${esc(S.nom)}">
+  <label for="o-siret">SIRET</label><input id="o-siret" type="text" inputmode="numeric" placeholder="14 chiffres">
+  <label for="o-naf">Activité (code NAF)</label><select id="o-naf">${Object.entries(METIERS).map(([k,m])=>`<option value="${k}" ${S.metier===k?'selected':''}>${m.naf} · ${m.nom}</option>`).join('')}</select>
+  <p class="src" style="margin-top:8px">Dans la version finale, le code NAF est retrouvé automatiquement à partir du SIRET. D'autres métiers suivront.</p></section>
+  <section class="card"><p class="lbl">Ce qui s'applique à vous</p>${questions().map(qrow).join('')}</section>
+  <button class="btn red" id="o-go">Voir mes obligations</button>
+  <button class="btn ghost" id="o-demo">Charger l'exemple Bistrot du Port</button>`;
+}
+function bindOnboarding(){
+  const keep=()=>{S.nom=document.getElementById('o-nom').value;S.siret=document.getElementById('o-siret').value;};
+  document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{keep();S.ans[b.dataset.k]=b.dataset.v==='1';render();});
+  document.getElementById('o-naf').onchange=e=>{keep();S.metier=e.target.value;render();};
+  document.getElementById('o-go').onclick=()=>{
+    const nom=document.getElementById('o-nom').value.trim(); if(!nom){toast('Indiquez le nom de l\'établissement.');return;}
+    S.nom=nom; S.siret=document.getElementById('o-siret').value||'non renseigné'; S.metier=document.getElementById('o-naf').value; S.setup=true; save(); view='bord'; render();
+    toast(`${applicable().length} obligations trouvées pour votre activité.`);
+  };
+  document.getElementById('o-demo').onclick=()=>{S=JSON.parse(JSON.stringify(DEMO));save();view='bord';render();};
+}
+render();
+</script>
+</body></html>

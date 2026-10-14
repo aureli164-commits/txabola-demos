@@ -1,0 +1,262 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Ticketémoin"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="theme-color" content="#1F2733"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="icon" href="/apple-touch-icon.png"><link rel="manifest" href="/manifest.json"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)} body{margin:0}</style><style>@media (max-width:860px){body{padding:0!important}.wrap>section{display:none!important}.phone{padding:0!important;border-radius:0!important;background:none!important;position:static!important;max-width:none!important}.screen{height:100dvh!important;max-height:none!important;border-radius:0!important;padding-top:env(safe-area-inset-top,0px)}.bar{display:none!important}}</style></head><body><title>Ticketémoin</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: explication à gauche, téléphone simulé à droite ; une colonne sur mobile. Identité : registre de preuves, encre bleu nuit + tampon vert. */
+:root{
+  --bg:#eef0ec; --surface:#ffffff; --ink:#1F2733; --muted:#5d6873; --line:#d7dbd5;
+  --accent:#1C7A58; --accent-soft:#CDEBDD; --warn:#a4561b; --warn-soft:#f6e6d8; --phone:#0f151d;
+  --display:"Fraunces",Georgia,serif; --body:"Public Sans",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12171d; --surface:#1b222b; --ink:#e7ebe6; --muted:#9aa5ae; --line:#2e3742;
+  --accent:#6cc3a0; --accent-soft:#1d3a30; --warn:#e3a36b; --warn-soft:#3b2a1c; --phone:#05080b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12171d; --surface:#1b222b; --ink:#e7ebe6; --muted:#9aa5ae; --line:#2e3742;
+  --accent:#6cc3a0; --accent-soft:#1d3a30; --warn:#e3a36b; --warn-soft:#3b2a1c; --phone:#05080b; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 48px}
+.wrap{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:40px;align-items:start}
+@media (max-width:860px){.wrap{grid-template-columns:minmax(0,1fr)}}
+h1{font-family:var(--display);font-weight:650;font-size:2.4rem;line-height:1.05;margin:0 0 6px;letter-spacing:-.01em}
+.lede{color:var(--muted);max-width:60ch;margin:0 0 22px}
+h2{font-family:var(--display);font-weight:500;font-size:1.15rem;margin:0 0 8px}
+.step-list{list-style:none;padding:0;margin:0 0 24px;display:grid;gap:6px}
+.step-list li{display:grid;grid-template-columns:28px 1fr;gap:10px;padding:10px 12px;border-radius:10px;border:1px solid transparent;color:var(--muted)}
+.step-list li.on{background:var(--surface);border-color:var(--line);color:var(--ink)}
+.step-list .n{font-family:var(--mono);font-size:.8rem;padding-top:2px}
+.step-list b{display:block;font-weight:600}
+.note{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:14px}
+.note p{margin:0 0 8px;max-width:62ch}.note p:last-child{margin:0}
+.tag{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.tag.w{color:var(--warn)}
+/* Téléphone */
+.phone{background:var(--phone);border-radius:38px;padding:12px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);max-width:380px;width:100%;margin:0 auto}
+.screen{background:var(--surface);border-radius:28px;height:700px;max-height:82vh;overflow:hidden;display:flex;flex-direction:column;position:relative}
+.bar{display:flex;justify-content:space-between;align-items:center;padding:14px 20px 6px;font-family:var(--mono);font-size:.75rem;color:var(--muted)}
+.app-head{padding:4px 20px 12px;border-bottom:1px solid var(--line)}
+.app-head .brand{font-family:var(--display);font-size:1.3rem;font-weight:650}
+.app-head .sub{font-size:.8rem;color:var(--muted)}
+.tabs{display:flex;gap:4px;padding:8px 12px;border-bottom:1px solid var(--line)}
+.tabs button{flex:1;border:0;background:transparent;color:var(--muted);font:500 .8rem var(--body);padding:8px 4px;border-radius:8px;cursor:pointer}
+.tabs button.on{background:var(--accent-soft);color:var(--accent)}
+.view{flex:1;overflow-y:auto;padding:14px 16px 20px}
+.btn{display:block;width:100%;border:1px solid var(--line);background:var(--surface);color:var(--ink);text-align:left;padding:12px 14px;border-radius:12px;font:500 .9rem var(--body);cursor:pointer;margin-bottom:8px}
+.btn small{display:block;color:var(--muted);font-weight:400;font-size:.78rem}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--surface);border-color:var(--accent);text-align:center;font-weight:600}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.lbl{font-family:var(--mono);font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:14px 0 8px}
+.toast{position:absolute;left:10px;right:10px;top:36px;background:var(--ink);color:var(--surface);border-radius:16px;padding:12px 14px;font-size:.85rem;box-shadow:0 10px 30px rgba(0,0,0,.25);cursor:pointer;z-index:5;transition:transform .3s}
+.toast b{display:block;font-size:.72rem;font-family:var(--mono);letter-spacing:.05em;opacity:.7;margin-bottom:2px}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+.item{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:8px;display:grid;grid-template-columns:1fr auto;gap:4px 10px}
+.item .t{font-weight:600}.item .m{color:var(--muted);font-size:.8rem}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+.pill{display:inline-block;font-size:.7rem;padding:2px 8px;border-radius:99px;background:var(--accent-soft);color:var(--accent);font-weight:600}
+.pill.w{background:var(--warn-soft);color:var(--warn)}
+.ignored{font-size:.8rem;color:var(--muted);border:1px dashed var(--line);border-radius:10px;padding:8px 12px;margin-bottom:8px}
+.total{display:flex;justify-content:space-between;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line);margin-bottom:10px}
+.total .big{font-family:var(--display);font-size:1.7rem;font-weight:650}
+.receipt{font-family:var(--mono);font-size:.78rem;background:var(--bg);border-radius:8px;padding:12px;white-space:pre;overflow-x:auto;margin:8px 0}
+.dossier table{width:100%;border-collapse:collapse;font-size:.78rem}
+.dossier th,.dossier td{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.dossier th{font-family:var(--mono);font-weight:500;font-size:.68rem;text-transform:uppercase;color:var(--muted)}
+.dossier td.num{text-align:right}
+.empty{color:var(--muted);font-size:.85rem;text-align:center;padding:30px 10px}
+.foot{font-size:.75rem;color:var(--muted);margin-top:12px}
+</style>
+
+<div class="wrap">
+  <section>
+    <span class="tag">Prototype · particulier</span>
+    <h1>Ticketémoin</h1>
+    <p class="lede">Chaque achat qui compte laisse une preuve, liée au paiement, au moment même où il a lieu. Le parcours se joue dans le téléphone à droite, avec des exemples fictifs.</p>
+
+    <ol class="step-list" id="steps">
+      <li data-s="1"><span class="n">01</span><span><b>Paiement par carte</b>Le paiement Apple Pay ou la notification bancaire déclenche l'appli.</span></li>
+      <li data-s="2"><span class="n">02</span><span><b>Filtre</b>Boulangerie, essence, restaurant : ignorés. Bien durable : retenu.</span></li>
+      <li data-s="3"><span class="n">03</span><span><b>Capture en caisse</b>Photo du ticket en deux secondes, ou facture lue dans la boîte mail.</span></li>
+      <li data-s="4"><span class="n">04</span><span><b>Garantie suivie</b>Le crochet du quotidien : alerte avant la fin des deux ans.</span></li>
+      <li data-s="5"><span class="n">05</span><span><b>Dossier sinistre</b>Vol ou dégât : la liste valorisée est prête à envoyer.</span></li>
+    </ol>
+
+    <div class="note">
+      <span class="tag">Le lien avec Revolut</span>
+      <p>Revolut fait déjà ce geste, mais seulement pour les pros : sur Revolut Business, un paiement par carte envoie une notification qui ouvre l'appareil photo pour joindre le reçu, et les reçus transférés par mail sont rattachés automatiquement à la dépense.</p>
+      <p>Côté particulier, Revolut inclut dans ses offres Plus, Premium, Metal et Ultra une garantie achat contre le vol et la casse pendant 365 jours, pour les articles de plus de 50 €. Pour être indemnisé, il faut fournir une preuve d'achat avec le reçu du commerçant. Revolut ne conserve donc pas la preuve dont son propre client a besoin.</p>
+      <p>C'est ton argument : Ticketémoin garde la preuve que la garantie Revolut exige, puis prend le relais après un an pour l'assurance habitation. Revolut n'est pas assureur habitation en France, donc il n'a pas le conflit d'intérêt du bancassureur.</p>
+    </div>
+    <div class="note">
+      <span class="tag w">Le risque</span>
+      <p>Revolut a déjà la technologie dans son offre Business. S'il juge le sujet porteur, il peut l'ouvrir aux particuliers sans toi. Ce qu'il n'a pas : la valorisation avec vétusté, le dossier sinistre et le passage par le courtier. C'est là qu'il faut être en avance.</p>
+    </div>
+  </section>
+
+  <div class="phone" aria-label="Téléphone simulé">
+    <div class="screen">
+      <div class="bar"><span>13:44</span><span>5G</span></div>
+      <div id="toast" class="toast" hidden role="button" tabindex="0"></div>
+      <div class="app-head"><button id="themeBtn" style="float:right;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;font:600 .75rem var(--body);cursor:pointer;min-height:36px">Auto</button><div class="brand">Ticketémoin</div><div class="sub">Vos achats, prouvés au moment du paiement</div></div>
+      <div class="tabs" role="tablist">
+        <button id="tab-pay" class="on" data-v="pay">Payer</button>
+        <button id="tab-inv" data-v="inv">Inventaire</button>
+        <button id="tab-claim" data-v="claim">Sinistre</button>
+      </div>
+      <div class="view" id="view"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const CATALOG = [
+  {id:'pain', merchant:'Boulangerie Lafitte', mcc:'Boulangerie', amount:4.8, durable:false},
+  {id:'lave', merchant:'Boulanger Anglet', mcc:'Électroménager', amount:649, durable:true, item:'Lave-linge 9 kg', cat:'Électroménager', rate:.10, mode:'photo',
+   lines:'BOULANGER ANGLET\n14/10/2026  13:44\n----------------------------\nLAVE-LINGE 9KG 1400TR   649,00\nTVA 20%                108,17\n----------------------------\nTOTAL CB               649,00\nGARANTIE LEGALE 2 ANS'},
+  {id:'essence', merchant:'Station Total', mcc:'Carburant', amount:72.4, durable:false},
+  {id:'pc', merchant:'Commande en ligne Fnac', mcc:'High-tech', amount:1299, durable:true, item:'Ordinateur portable 14"', cat:'Informatique', rate:.25, mode:'mail',
+   lines:'De : commandes@fnac (facture PDF)\nObjet : Votre facture n° FR-88231\n----------------------------\nORDINATEUR PORTABLE 14" 16GO  1299,00\nLivraison                        0,00\nTOTAL                         1299,00'},
+  {id:'velo', merchant:'Cycles Basques', mcc:'Sport', amount:2190, durable:true, item:'Vélo électrique', cat:'Mobilité', rate:.15, mode:'photo',
+   lines:'CYCLES BASQUES BAYONNE\n14/10/2026\n----------------------------\nVAE CADRE M  N°SERIE WX44721  2190,00\n----------------------------\nTOTAL CB                    2190,00'}
+];
+// Exemples déjà présents dans l'inventaire (achats passés fictifs)
+let inventory = [
+  {item:'Téléviseur 55"', cat:'Image et son', merchant:'Darty', amount:799, date:'2024-03-12', rate:.15, mode:'mail'},
+  {item:'Canapé 3 places', cat:'Mobilier', merchant:'Maison du Canapé', amount:1450, date:'2023-06-02', rate:.10, mode:'photo'}
+];
+try{ const saved = JSON.parse(localStorage.getItem('ticketemoin-demo')||'null'); if(saved && saved.length) inventory = saved; }catch(e){}
+function saveInv(){ try{ localStorage.setItem('ticketemoin-demo', JSON.stringify(inventory)); }catch(e){} }
+const CATS = {'Électroménager':.10,'Informatique':.25,'Image et son':.15,'Mobilier':.10,'Mobilité':.15,'Bijoux':.02,'Outillage':.10};
+let ignored = [], pending = null, view = 'pay', lastAdded = null;
+const TODAY = new Date('2026-10-14');
+const eur = n => n.toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
+const fmtDate = s => new Date(s).toLocaleDateString('fr-FR');
+function ageYears(d){return Math.max(0,(TODAY - new Date(d))/(365.25*864e5));}
+function valueNow(x){ const v = x.amount*(1 - x.rate*ageYears(x.date)); return Math.max(v, x.amount*.2); }
+function warrantyEnd(d){ const e=new Date(d); e.setFullYear(e.getFullYear()+2); return e; }
+function warrantyLeft(d){ return Math.round((warrantyEnd(d)-TODAY)/864e5); }
+
+function setStep(n){ document.querySelectorAll('#steps li').forEach(li=>li.classList.toggle('on', +li.dataset.s===n)); }
+function setTab(v){ view=v; document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on', b.dataset.v===v)); render(); }
+document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.v)));
+
+const toast = document.getElementById('toast');
+function showToast(html, onTap){ toast.innerHTML=html; toast.hidden=false; toast.onclick=()=>{toast.hidden=true; onTap&&onTap();};
+  toast.onkeydown=e=>{if(e.key==='Enter'){toast.onclick();}}; }
+
+function pay(p){
+  setStep(1);
+  if(!p.durable){
+    ignored.unshift(p);
+    setStep(2);
+    showToast(`<b>PAIEMENT DÉTECTÉ</b>${p.merchant} · ${eur(p.amount)}<br>Achat courant, rien à faire.`);
+    setTimeout(()=>{toast.hidden=true;},2600);
+    render(); return;
+  }
+  setStep(2);
+  pending = p;
+  const msg = p.mode==='mail'
+    ? `<b>PAIEMENT DÉTECTÉ · ${eur(p.amount)}</b>${p.merchant}. Facture trouvée dans votre boîte mail. Touchez pour vérifier.`
+    : `<b>PAIEMENT DÉTECTÉ · ${eur(p.amount)}</b>${p.merchant}. Vous êtes encore en caisse : photographiez le ticket.`;
+  showToast(msg, ()=>{ view='capture'; render(); });
+  render();
+}
+
+function confirmCapture(){
+  const p = pending; if(!p) return;
+  const rec = {item:p.item, cat:p.cat, merchant:p.merchant, amount:p.amount, date:'2026-10-14', rate:p.rate, mode:p.mode, fresh:true};
+  inventory.unshift(rec); saveInv(); lastAdded = rec; pending=null; setStep(4);
+  view='added'; render();
+}
+
+function render(){
+  const v = document.getElementById('view');
+  if(view==='pay'){
+    setTabsUI('pay');
+    v.innerHTML = `<div class="lbl">Simuler un paiement par carte</div>` +
+      CATALOG.map(p=>`<button class="btn" data-pay="${p.id}">${p.merchant}<small>${p.mcc} · ${eur(p.amount)}</small></button>`).join('') +
+      (ignored.length?`<div class="lbl">Ignorés automatiquement</div>`+ignored.map(p=>`<div class="ignored">${p.merchant} · ${eur(p.amount)} · ${p.mcc}</div>`).join(''):'') +
+      `<p class="foot">Seuls les biens durables déclenchent une demande. Tout le reste passe sans vous déranger.</p>`;
+    v.querySelectorAll('[data-pay]').forEach(b=>b.addEventListener('click',()=>pay(CATALOG.find(c=>c.id===b.dataset.pay))));
+  }
+  else if(view==='capture'){
+    setTabsUI('pay'); setStep(3);
+    const p=pending;
+    v.innerHTML = `<div class="lbl">${p.mode==='mail'?'Facture reçue par mail':'Photo du ticket'}</div>
+      <div class="item"><div><div class="t">${p.merchant}</div><div class="m">Paiement du 14/10/2026 à 13:44</div></div><div class="num">${eur(p.amount)}</div></div>
+      <div class="receipt">${p.lines}</div>
+      <div class="lbl">Lu automatiquement</div>
+      <div class="item"><div><div class="t">${p.item}</div><div class="m">${p.cat} · montant identique au paiement</div></div><div><span class="pill">Lien sûr</span></div></div>
+      ${p.mode==='photo'?`<label class="btn" for="photo">Prendre ou choisir une photo<small>Dans ce prototype, le ticket d'exemple ci-dessus est utilisé</small></label><input id="photo" type="file" accept="image/*" hidden>`:''}
+      <button class="btn primary" id="ok">Ajouter à l'inventaire</button>`;
+    document.getElementById('ok').addEventListener('click',confirmCapture);
+  }
+  else if(view==='added'){
+    setTabsUI('pay');
+    const r=lastAdded, end=warrantyEnd(r.date);
+    v.innerHTML = `<div class="lbl">Ajouté</div>
+      <div class="item"><div><div class="t">${r.item}</div><div class="m">${r.merchant} · ${fmtDate(r.date)}</div></div><div class="num">${eur(r.amount)}</div></div>
+      <div class="lbl">Garantie légale</div>
+      <div class="item"><div><div class="t">Jusqu'au ${end.toLocaleDateString('fr-FR')}</div><div class="m">Rappel 30 jours avant. La facture sera prête en cas de panne.</div></div><div><span class="pill">2 ans</span></div></div>
+      ${r.amount>50?`<div class="lbl">Si payé avec une carte Revolut Plus ou plus</div><div class="item"><div><div class="t">Garantie achat vol et casse</div><div class="m">12 mois, preuve d'achat déjà conservée ici.</div></div><div><span class="pill w">À vérifier</span></div></div>`:''}
+      <button class="btn primary" id="seeInv">Voir l'inventaire</button>
+      <button class="btn" id="again">Simuler un autre paiement</button>`;
+    document.getElementById('seeInv').addEventListener('click',()=>setTab('inv'));
+    document.getElementById('again').addEventListener('click',()=>setTab('pay'));
+  }
+  else if(view==='inv'){
+    setTabsUI('inv');
+    const tot = inventory.reduce((s,x)=>s+x.amount,0), now = inventory.reduce((s,x)=>s+valueNow(x),0);
+    v.innerHTML = `<div class="total"><div><div class="lbl" style="margin:0">Valeur actuelle estimée</div><div class="big num">${eur(now)}</div></div><div class="num" style="color:var(--muted);font-size:.8rem">payé ${eur(tot)}<br>${inventory.length} biens</div></div>` +
+      inventory.map(x=>{ const left=warrantyLeft(x.date);
+        return `<div class="item"><div><div class="t">${x.item}${x.fresh?' <span class="pill">nouveau</span>':''}</div><div class="m">${x.merchant} · ${fmtDate(x.date)} · ${x.mode==='mail'?'facture mail':x.mode==='photo'?'photo ticket':'<span style="color:var(--warn)">sans preuve</span>'}</div>
+        <div class="m">${left>0?`Garantie : encore ${left} jours`:'Garantie légale terminée'}</div></div>
+        <div class="num">${eur(valueNow(x))}<div class="m">sur ${eur(x.amount)}</div></div></div>`}).join('') +
+      `<button class="btn primary" id="addManual">Ajouter un bien à la main</button><p class="foot">Les biens d'exemple sont fictifs. Vétusté simplifiée par catégorie, plancher à 20 %.</p>`;
+    document.getElementById('addManual').addEventListener('click',()=>{view='manual';render();});
+  }
+  else if(view==='manual'){
+    setTabsUI('inv');
+    v.innerHTML = `<div class="lbl">Nouveau bien</div>
+      <label class="lbl" for="m-item">Désignation</label><input id="m-item" class="btn" style="text-align:left;cursor:text" placeholder="Ex. Machine à café expresso">
+      <label class="lbl" for="m-cat">Catégorie</label><select id="m-cat" class="btn" style="text-align:left">${Object.keys(CATS).map(c=>`<option>${c}</option>`).join('')}</select>
+      <label class="lbl" for="m-price">Prix payé (€)</label><input id="m-price" class="btn" style="text-align:left;cursor:text" type="number" min="0" step="1" placeholder="Ex. 450">
+      <label class="lbl" for="m-date">Date d'achat</label><input id="m-date" class="btn" style="text-align:left;cursor:text" type="date" value="2026-10-14">
+      <label class="lbl" for="m-shop">Magasin</label><input id="m-shop" class="btn" style="text-align:left;cursor:text" placeholder="Ex. Darty Bayonne">
+      <label class="lbl" for="m-file">Preuve (photo ou PDF)</label><input id="m-file" type="file" accept="image/*,application/pdf" style="margin-bottom:12px">
+      <button class="btn primary" id="m-save">Enregistrer le bien</button>
+      <button class="btn" id="m-cancel">Annuler</button>`;
+    document.getElementById('m-cancel').addEventListener('click',()=>{view='inv';render();});
+    document.getElementById('m-save').addEventListener('click',()=>{
+      const item=document.getElementById('m-item').value.trim(), amount=parseFloat(document.getElementById('m-price').value), date=document.getElementById('m-date').value;
+      if(!item || !(amount>0) || !date){ showToast('<b>À COMPLÉTER</b>Désignation, prix et date sont nécessaires.'); setTimeout(()=>{toast.hidden=true;},2400); return; }
+      const cat=document.getElementById('m-cat').value, f=document.getElementById('m-file').files[0];
+      inventory.unshift({item, cat, merchant:document.getElementById('m-shop').value.trim()||'Magasin non précisé', amount, date, rate:CATS[cat], mode:f?'photo':'sans preuve', fresh:true});
+      saveInv(); view='inv'; render();
+    });
+  }
+  else if(view==='claim'){
+    setTabsUI('claim'); setStep(5);
+    const now = inventory.reduce((s,x)=>s+valueNow(x),0);
+    v.innerHTML = `<div class="dossier"><div class="lbl">Dossier pour l'assureur</div>
+      <p style="margin:0 0 10px;font-size:.85rem">Cambriolage ou dégât des eaux : cochez les biens touchés, le dossier se construit.</p>
+      <div style="overflow-x:auto"><table><thead><tr><th></th><th>Bien</th><th>Achat</th><th class="num">Payé</th><th class="num">Actuel</th></tr></thead><tbody>
+      ${inventory.map((x,i)=>`<tr><td><input type="checkbox" id="c${i}" checked aria-label="${x.item}"></td><td>${x.item}<br><span style="color:var(--muted)">${x.merchant}</span></td><td>${fmtDate(x.date)}</td><td class="num">${eur(x.amount)}</td><td class="num">${eur(valueNow(x))}</td></tr>`).join('')}
+      </tbody></table></div>
+      <div class="total"><span>Total déclaré</span><span class="big num" id="claimTot">${eur(now)}</span></div>
+      <button class="btn primary" id="gen">Générer le dossier</button>
+      <div id="genOk" hidden class="ignored">Dossier prêt : liste, factures et photos, ${inventory.length} pièces jointes. À transmettre à votre courtier.</div></div>`;
+    const upd=()=>{let s=0;inventory.forEach((x,i)=>{if(document.getElementById('c'+i).checked)s+=valueNow(x)});document.getElementById('claimTot').textContent=eur(s);};
+    inventory.forEach((x,i)=>document.getElementById('c'+i).addEventListener('change',upd));
+    document.getElementById('gen').addEventListener('click',()=>{document.getElementById('genOk').hidden=false;});
+  }
+}
+function setTabsUI(v){ document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on', b.dataset.v===v)); }
+const THEMES=['auto','light','dark'], TLABEL={auto:'Auto',light:'Jour',dark:'Nuit'};
+let theme='auto'; try{ theme=localStorage.getItem('ticketemoin-theme')||'auto'; }catch(e){}
+function applyTheme(){ if(theme==='auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.setAttribute('data-theme',theme); const b=document.getElementById('themeBtn'); b.textContent=TLABEL[theme]; b.setAttribute('aria-label','Changer le thème, actuellement '+TLABEL[theme]); }
+document.getElementById('themeBtn').addEventListener('click',()=>{ theme=THEMES[(THEMES.indexOf(theme)+1)%3]; try{localStorage.setItem('ticketemoin-theme',theme);}catch(e){} applyTheme(); });
+applyTheme();
+setStep(1); render();
+</script>
+</body></html>
