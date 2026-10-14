@@ -1,1 +1,1 @@
-{"name":"Val'idée","short_name":"Val'idée","start_url":"/","display":"standalone","background_color":"#EFE6D6","theme_color":"#B3261E","lang":"fr","icons":[{"src":"/apple-touch-icon.png","sizes":"180x180","type":"image/png"}]}
+{"name":"Val'idée","short_name":"Val'idée","start_url":"./","display":"standalone","background_color":"#EFE6D6","theme_color":"#B3261E","lang":"fr","icons":[{"src":"apple-touch-icon.png","sizes":"180x180","type":"image/png"}],"scope":"./"}

@@ -1,1 +1,1 @@
-{"name":"Ticketémoin","short_name":"Ticketémoin","start_url":"/","display":"standalone","background_color":"#EEF1EF","theme_color":"#1F2733","lang":"fr","icons":[{"src":"/apple-touch-icon.png","sizes":"180x180","type":"image/png"}]}
+{"name":"Ticketémoin","short_name":"Ticketémoin","start_url":"./","display":"standalone","background_color":"#EEF1EF","theme_color":"#1F2733","lang":"fr","icons":[{"src":"apple-touch-icon.png","sizes":"180x180","type":"image/png"}],"scope":"./"}
